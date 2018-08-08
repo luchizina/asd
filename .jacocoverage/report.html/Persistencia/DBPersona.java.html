@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DBPersona.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;EjemploJava&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Persistencia</a> &gt; <span class="el_source">DBPersona.java</span></div><h1>DBPersona.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Persistencia;
+import Logica.Persona;
+import Persistencia.ConexionDB;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+/**
+ *
+ * @author apias
+ */
+<span class="fc" id="L20">public class DBPersona {    </span>
+<span class="fc" id="L21">    private Connection conexion = new ConexionDB().getConexion();</span>
+    public boolean agregarPersona(Persona p){
+        try {
+<span class="fc" id="L24">            PreparedStatement statement = conexion.prepareStatement(&quot;INSERT INTO personas &quot;</span>
+                    + &quot;(nombre, edad) values(?,?)&quot;);
+<span class="fc" id="L26">            statement.setString(1, p.getNombre());</span>
+<span class="fc" id="L27">            statement.setInt(2, p.getEdad());</span>
+<span class="fc" id="L28">            statement.executeUpdate();</span>
+<span class="fc" id="L29">            return true;</span>
+            //conexion.commit();
+<span class="nc" id="L31">        } catch (SQLException ex) {</span>
+<span class="nc" id="L32">            ex.printStackTrace();</span>
+<span class="nc" id="L33">            return false;</span>
+        }        
+    }
+    
+    public boolean borrarPersona(Persona p){
+        try {
+<span class="fc" id="L39">            PreparedStatement statement = conexion.prepareStatement(&quot;DELETE FROM personas &quot;</span>
+                    + &quot;WHERE nombre=? and edad=?&quot;);
+<span class="fc" id="L41">            statement.setString(1, p.getNombre());</span>
+<span class="fc" id="L42">            statement.setInt(2, p.getEdad());</span>
+<span class="fc" id="L43">            statement.executeUpdate();</span>
+<span class="fc" id="L44">            return true;</span>
+            //conexion.commit();
+<span class="nc" id="L46">        } catch (SQLException ex) {</span>
+<span class="nc" id="L47">            ex.printStackTrace();</span>
+<span class="nc" id="L48">            return false;</span>
+        }        
+    }    
+    
+    public List&lt;Persona&gt; buscarPersonas(String nombre){
+        try {
+<span class="fc" id="L54">            List&lt;Persona&gt; lista=new ArrayList&lt;Persona&gt;();</span>
+<span class="fc" id="L55">            PreparedStatement st = conexion.prepareStatement(&quot;SELECT * FROM personas &quot;</span>
+                    + &quot;WHERE nombre LIKE ?&quot;);
+<span class="fc" id="L57">            st.setString(1, &quot;%&quot;+nombre+&quot;%&quot;);           </span>
+<span class="fc" id="L58">            ResultSet rs=st.executeQuery();</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">            while (rs.next()){</span>
+<span class="fc" id="L60">                Persona p=new Persona(rs.getString(&quot;nombre&quot;),rs.getInt(&quot;edad&quot;));</span>
+<span class="fc" id="L61">                lista.add(p);</span>
+<span class="fc" id="L62">            }</span>
+<span class="fc" id="L63">            rs.close();</span>
+<span class="fc" id="L64">            return lista;</span>
+<span class="nc" id="L65">        } catch (SQLException ex) {</span>
+<span class="nc" id="L66">            ex.printStackTrace();</span>
+<span class="nc" id="L67">            return null;</span>
+        }        
+    }    
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

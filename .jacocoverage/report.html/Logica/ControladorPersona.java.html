@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ControladorPersona.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;EjemploJava&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Logica</a> &gt; <span class="el_source">ControladorPersona.java</span></div><h1>ControladorPersona.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Logica;
+
+import java.util.List;
+import java.util.ArrayList;
+import Logica.Persona;
+import Persistencia.DBPersona;
+/**
+ *
+ * @author apias
+ */
+public class ControladorPersona implements IControladorPersona {
+    private List&lt;Persona&gt; personas;
+<span class="fc" id="L18">    private DBPersona dbPersona=null;</span>
+
+<span class="fc" id="L20">    public ControladorPersona(){</span>
+<span class="fc" id="L21">        this.personas=new ArrayList&lt;Persona&gt;();</span>
+<span class="fc" id="L22">        this.dbPersona=new DBPersona();</span>
+<span class="fc" id="L23">    }</span>
+    @Override
+    public boolean AgregarPersona(String nombre, int edad) {
+<span class="fc" id="L26">        Persona p=new Persona(nombre, edad);</span>
+<span class="fc" id="L27">        this.personas.add(p);</span>
+<span class="fc" id="L28">        return this.dbPersona.agregarPersona(p);</span>
+    }
+
+    @Override
+    public boolean BorrarPersona(DataPersona p) {
+        //Persona p=new Persona(nombre, edad);
+        //this.personas.add(p);
+        //return this.dbPersona.agregarPersona(p);
+<span class="fc" id="L36">        return this.dbPersona.borrarPersona(new Persona(p.getNombre(),p.getEdad()));</span>
+    }
+    
+    
+    @Override
+    public List&lt;DataPersona&gt; BuscarPersonas(String nombre) {
+<span class="fc" id="L42">        List&lt;DataPersona&gt; retornar=new ArrayList&lt;DataPersona&gt;();</span>
+        List&lt;Persona&gt; auxiliar;
+        //throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.
+<span class="fc" id="L45">        auxiliar=this.dbPersona.buscarPersonas(nombre);</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        for(int i=0; i&lt;auxiliar.size(); i++)</span>
+<span class="fc" id="L47">            retornar.add(new DataPersona(auxiliar.get(i)));</span>
+<span class="fc" id="L48">        return retornar;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
